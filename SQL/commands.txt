@@ -1,0 +1,168 @@
+in this text file i will share all my sql commands used and the results are shown in the above screenshots file which cotains screenshots of shell commands and the tables formed in the sql workbench 
+
+
+CREATE TABLE Movies (
+    movie_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255),
+    release_year INT
+);
+
+CREATE TABLE Media (
+    media_id INT PRIMARY KEY AUTO_INCREMENT,
+    movie_id INT,
+    media_type ENUM('video', 'image'),
+    media_url VARCHAR(255),
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id)
+);
+
+CREATE TABLE Genre (
+    genre_id INT PRIMARY KEY AUTO_INCREMENT,
+    genre_name VARCHAR(255)
+);
+
+CREATE TABLE Movie_Genre (
+    movie_id INT,
+    genre_id INT,
+    PRIMARY KEY (movie_id, genre_id),
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
+    FOREIGN KEY (genre_id) REFERENCES Genre(genre_id)
+);
+
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255)
+);
+
+CREATE TABLE Reviews (
+    review_id INT PRIMARY KEY AUTO_INCREMENT,
+    movie_id INT,
+    user_id INT,
+    review_text TEXT,
+    rating DECIMAL(3, 1),
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+CREATE TABLE Artists (
+    artist_id INT PRIMARY KEY AUTO_INCREMENT,
+    artist_name VARCHAR(255)
+);
+
+CREATE TABLE Skills (
+    skill_id INT PRIMARY KEY AUTO_INCREMENT,
+    skill_name VARCHAR(255)
+);
+
+CREATE TABLE Artist_Skills (
+    artist_id INT,
+    skill_id INT,
+    PRIMARY KEY (artist_id, skill_id),
+    FOREIGN KEY (artist_id) REFERENCES Artists(artist_id),
+    FOREIGN KEY (skill_id) REFERENCES Skills(skill_id)
+);
+
+CREATE TABLE Roles (
+    role_id INT PRIMARY KEY AUTO_INCREMENT,
+    role_name VARCHAR(255)
+);
+
+CREATE TABLE Movie_Roles (
+    movie_id INT,
+    artist_id INT,
+    role_id INT,
+    PRIMARY KEY (movie_id, artist_id, role_id),
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
+    FOREIGN KEY (artist_id) REFERENCES Artists(artist_id),
+    FOREIGN KEY (role_id) REFERENCES Roles(role_id)
+);
+
+
+
+
+-- Inserting entries into the Movies table
+INSERT INTO Movies (title, release_year) VALUES
+('The Shawshank Redemption', 1994),
+('Inception', 2010),
+('The Dark Knight', 2008),
+('Pulp Fiction', 1994),
+('Forrest Gump', 1994);
+
+-- Inserting entries into the Media table
+INSERT INTO Media (movie_id, media_type, media_url) VALUES
+(1, 'video', 'https://example.com/shawshank_redemption_trailer.mp4'),
+(1, 'image', 'https://example.com/shawshank_redemption_poster.jpg'),
+(2, 'video', 'https://example.com/inception_trailer.mp4'),
+(3, 'image', 'https://example.com/dark_knight_poster.jpg'),
+(4, 'image', 'https://example.com/pulp_fiction_poster.jpg');
+
+-- Inserting entries into the Genre table
+INSERT INTO Genre (genre_name) VALUES
+('Drama'),
+('Action'),
+('Crime'),
+('Thriller'),
+('Comedy');
+
+-- Inserting entries into the Movie_Genre table
+INSERT INTO Movie_Genre (movie_id, genre_id) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(3, 2),
+(4, 1);
+
+-- Inserting entries into the Users table
+INSERT INTO Users (username) VALUES
+('user1'),
+('user2'),
+('user3'),
+('user4'),
+('user5');
+
+-- Inserting entries into the Reviews table
+INSERT INTO Reviews (movie_id, user_id, review_text, rating) VALUES
+(1, 1, 'One of the best movies ever made.', 9.5),
+(2, 2, 'Mind-bending experience!', 8.8),
+(3, 3, 'Masterpiece.', 9.7),
+(4, 4, 'Quentin Tarantino at his finest.', 9.0),
+(5, 5, 'Heartwarming and entertaining.', 8.5);
+
+-- Inserting entries into the Artists table
+INSERT INTO Artists (artist_name) VALUES
+('Morgan Freeman'),
+('Leonardo DiCaprio'),
+('Heath Ledger'),
+('Samuel L. Jackson'),
+('Tom Hanks');
+
+-- Inserting entries into the Skills table
+INSERT INTO Skills (skill_name) VALUES
+('Acting'),
+('Directing'),
+('Screenwriting'),
+('Cinematography'),
+('Music Composition');
+
+-- Inserting entries into the Artist_Skills table
+INSERT INTO Artist_Skills (artist_id, skill_id) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1);
+
+-- Inserting entries into the Roles table
+INSERT INTO Roles (role_name) VALUES
+('Actor'),
+('Director'),
+('Writer'),
+('Cinematographer'),
+('Composer');
+
+-- Inserting entries into the Movie_Roles table
+INSERT INTO Movie_Roles (movie_id, artist_id, role_id) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1),
+(3, 4, 1),
+(5, 5, 1);
